@@ -1,0 +1,22 @@
+# Raspberry Pi Requirements
+
+# GPIO Control
+RPi.GPIO==0.7.1
+
+# Camera
+picamera2==0.3.16
+opencv-python==4.8.1.78
+
+# OCR for License Plate Recognition
+easyocr==1.7.0
+pytesseract==0.3.10
+
+# Image Processing
+Pillow==10.1.0
+numpy==1.24.3
+
+# HTTP Requests
+requests==2.31.0
+
+# Utilities
+python-dotenv==1.0.0
