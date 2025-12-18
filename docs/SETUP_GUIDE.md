@@ -1,14 +1,19 @@
 # Complete Setup Guide
 
+> **📖 Cross-Platform Guide:** Includes commands for Windows, Linux, and Mac
+> **Windows Users:** All Windows commands are provided alongside Linux/Mac commands
+
 ## Step-by-Step Installation
 
 ### Prerequisites
 
 Before starting, ensure you have:
 - AWS Account with billing enabled
-- Raspberry Pi 4 with Raspbian OS installed
+- Raspberry Pi 4 with Raspbian OS installed (for hardware control)
 - All hardware components (see README.md)
-- Basic knowledge of Linux/Python
+- Basic knowledge of command line and Python
+- **Windows:** Python 3.9+ installed from python.org
+- **Linux/Mac:** Python 3.9+ (usually pre-installed)
 
 ---
 
@@ -97,6 +102,7 @@ cd IOT-PROJECT-v2
 
 ### 2.3 Setup Python Environment
 
+**Linux/Mac:**
 ```bash
 # Create virtual environment
 python3 -m venv venv
@@ -106,12 +112,30 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+**Windows:**
+```cmd
+REM Create virtual environment
+python -m venv venv
+venv\Scripts\activate.bat
+
+REM Install requirements
+pip install -r requirements.txt
+```
+
 ### 2.4 Configure Environment
 
+**Linux/Mac:**
 ```bash
 # Create .env file
 cp .env.example .env
 nano .env
+```
+
+**Windows:**
+```cmd
+REM Create .env file
+copy .env.example .env
+notepad .env
 ```
 
 Edit with your AWS credentials:
@@ -130,12 +154,24 @@ DYNAMODB_TABLE_NAME=VehiclePassRegistrations
 
 ### 2.5 Test Backend
 
+**Linux/Mac:**
 ```bash
 # Run development server
 python backend/app.py
 
 # Test health endpoint
 curl http://localhost:5000/health
+```
+
+**Windows:**
+```cmd
+REM Run development server
+python backend\app.py
+
+REM Test health endpoint (PowerShell)
+Invoke-WebRequest -Uri http://localhost:5000/health
+
+REM Or open in browser: http://localhost:5000/health
 ```
 
 ### 2.6 Production Deployment
@@ -180,6 +216,7 @@ sudo systemctl status vehicle-pass
 
 ### 3.1 Update API URLs
 
+**Linux/Mac:**
 ```bash
 cd frontend
 
@@ -192,12 +229,31 @@ nano admin.html
 # Change: const API_URL = 'http://YOUR_BACKEND_IP:5000/api';
 ```
 
+**Windows:**
+```cmd
+cd frontend
+
+REM Edit index.html
+notepad index.html
+REM Change: const API_URL = 'http://YOUR_BACKEND_IP:5000/api';
+
+REM Edit admin.html
+notepad admin.html
+REM Change: const API_URL = 'http://YOUR_BACKEND_IP:5000/api';
+```
+
 ### 3.2 Serve Frontend
 
-**Option A: Simple Python Server**
+**Option A: Simple Python Server (Linux/Mac)**
 ```bash
 cd frontend
 python3 -m http.server 8080
+```
+
+**Option A: Simple Python Server (Windows)**
+```cmd
+cd frontend
+python -m http.server 8080
 ```
 
 **Option B: Nginx (Production)**
