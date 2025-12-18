@@ -1,5 +1,8 @@
 # Quick Start Guide - AWS Connection
 
+> **📖 Windows Users:** This guide includes both Linux/Mac and Windows commands
+> **For detailed Windows setup:** See `WINDOWS_SETUP.md`
+
 ## 🚀 Get Up and Running in 10 Minutes
 
 ### Step 1: Get AWS Credentials (5 minutes)
@@ -29,6 +32,7 @@ Secret access key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 ### Step 2: Configure Your Application (2 minutes)
 
+**Linux/Mac:**
 ```bash
 # Navigate to project
 cd /home/user/IOT-PROJECT-v2
@@ -38,6 +42,18 @@ cp .env.example .env
 
 # Edit .env file
 nano .env
+```
+
+**Windows:**
+```cmd
+REM Navigate to project (adjust path to your location)
+cd E:\IOT-PROJECT-v2
+
+REM Create .env file
+copy .env.example .env
+
+REM Edit .env file
+notepad .env
 ```
 
 **Paste your credentials:**
@@ -61,11 +77,21 @@ DEBUG=True
 
 ### Step 3: Test AWS Connection (1 minute)
 
+**Linux/Mac:**
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
 # Run connection test
+python test_aws_connection.py
+```
+
+**Windows:**
+```cmd
+REM Install dependencies
+pip install -r requirements.txt
+
+REM Run connection test
 python test_aws_connection.py
 ```
 
@@ -90,9 +116,22 @@ Table Information:
 
 ### Step 4: Start the Backend (1 minute)
 
+**Linux/Mac:**
 ```bash
-# Start Flask server
+# Quick start with script
+./run_backend.sh
+
+# Or manually
 python backend/app.py
+```
+
+**Windows:**
+```cmd
+REM Quick start with batch file
+run_backend.bat
+
+REM Or manually
+python backend\app.py
 ```
 
 **Expected Output:**
@@ -161,7 +200,7 @@ Your database is now connected! Next steps:
 
 **Problem:** .env file not found or empty
 
-**Fix:**
+**Fix (Linux/Mac):**
 ```bash
 # Make sure you're in the project root
 cd /home/user/IOT-PROJECT-v2
@@ -172,6 +211,19 @@ ls -la .env
 # If not, create it
 cp .env.example .env
 nano .env  # Add your AWS credentials
+```
+
+**Fix (Windows):**
+```cmd
+REM Make sure you're in the project root
+cd E:\IOT-PROJECT-v2
+
+REM Check if .env exists
+dir .env
+
+REM If not, create it
+copy .env.example .env
+notepad .env
 ```
 
 ---
@@ -191,13 +243,13 @@ nano .env  # Add your AWS credentials
 
 **Problem:** DynamoDB table not created
 
-**Fix:**
+**Fix (Auto-create - Works on all platforms):**
 ```bash
 # Run backend - it will auto-create the table
 python backend/app.py
 ```
 
-Or create manually:
+**Or create manually (Linux/Mac):**
 ```bash
 aws dynamodb create-table \
     --table-name VehiclePassRegistrations \
@@ -205,6 +257,11 @@ aws dynamodb create-table \
     --key-schema AttributeName=plate_number,KeyType=HASH \
     --billing-mode PAY_PER_REQUEST \
     --region us-east-1
+```
+
+**Or create manually (Windows):**
+```cmd
+aws dynamodb create-table --table-name VehiclePassRegistrations --attribute-definitions AttributeName=plate_number,AttributeType=S --key-schema AttributeName=plate_number,KeyType=HASH --billing-mode PAY_PER_REQUEST --region us-east-1
 ```
 
 ---
@@ -338,12 +395,13 @@ CORS_ORIGINS=*
 
 ## Quick Command Reference
 
+**Linux/Mac:**
 ```bash
 # Test AWS connection
 python test_aws_connection.py
 
 # Start backend
-python backend/app.py
+./run_backend.sh  # or: python backend/app.py
 
 # Start frontend
 cd frontend && python3 -m http.server 8080
@@ -355,6 +413,29 @@ curl http://localhost:5000/api/vehicles
 aws dynamodb list-tables --region us-east-1
 
 # View items in table
+aws dynamodb scan --table-name VehiclePassRegistrations
+```
+
+**Windows:**
+```cmd
+REM Test AWS connection
+python test_aws_connection.py
+
+REM Start backend
+run_backend.bat
+REM or: python backend\app.py
+
+REM Start frontend
+cd frontend
+python -m http.server 8080
+
+REM View registered vehicles (PowerShell)
+Invoke-WebRequest -Uri http://localhost:5000/api/vehicles
+
+REM Check DynamoDB tables
+aws dynamodb list-tables --region us-east-1
+
+REM View items in table
 aws dynamodb scan --table-name VehiclePassRegistrations
 ```
 

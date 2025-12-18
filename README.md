@@ -2,6 +2,9 @@
 
 An IoT-based automated vehicle access control system using Raspberry Pi, AWS DynamoDB, and cloud integration.
 
+> **✅ Cross-Platform Support:** Works on Windows, Linux, and Mac
+> **📖 Windows Users:** See `WINDOWS_SETUP.md` for detailed Windows-specific instructions
+
 ## System Overview
 
 This project implements a smart parking/gate access control system that:
@@ -77,13 +80,21 @@ This project implements a smart parking/gate access control system that:
 
 ### 1. Clone Repository
 
+**Linux/Mac:**
 ```bash
+git clone <repository-url>
+cd IOT-PROJECT-v2
+```
+
+**Windows (Command Prompt):**
+```cmd
 git clone <repository-url>
 cd IOT-PROJECT-v2
 ```
 
 ### 2. Backend Setup
 
+**Linux/Mac:**
 ```bash
 # Install Python dependencies
 pip install -r requirements.txt
@@ -92,6 +103,18 @@ pip install -r requirements.txt
 cp .env.example .env
 nano .env  # Edit with your AWS credentials and settings
 ```
+
+**Windows (Command Prompt):**
+```cmd
+REM Install Python dependencies
+pip install -r requirements.txt
+
+REM Configure environment variables
+copy .env.example .env
+notepad .env
+```
+
+> **Note for Windows users:** See `WINDOWS_SETUP.md` for detailed Windows-specific instructions
 
 ### 3. AWS Configuration
 
@@ -153,17 +176,37 @@ Or use Nginx/Apache for production.
 
 ### 1. Start Backend Server
 
+**Linux/Mac:**
 ```bash
-# Development
+# Quick start (uses run_backend.sh)
+./run_backend.sh
+
+# Or manually
 python backend/app.py
 
 # Production (with Gunicorn)
 gunicorn -w 4 -b 0.0.0.0:5000 backend.app:app
 ```
 
+**Windows:**
+```cmd
+REM Quick start (uses run_backend.bat)
+run_backend.bat
+
+REM Or manually
+python backend\app.py
+```
+
 ### 2. Start Raspberry Pi Controller
 
+**Linux/Mac:**
 ```bash
+cd raspberry_pi
+python main.py
+```
+
+**Windows (if testing on Windows PC):**
+```cmd
 cd raspberry_pi
 python main.py
 ```
@@ -295,7 +338,30 @@ Features:
 
 ## Troubleshooting
 
-### Camera Issues
+### Windows-Specific Issues
+
+**'cp' is not recognized**
+- Use `copy` instead of `cp`
+- See `WINDOWS_SETUP.md` for command equivalents
+
+**'python' is not recognized**
+- Install Python from https://www.python.org/downloads/
+- Check "Add Python to PATH" during installation
+- Restart Command Prompt after installation
+
+**Virtual environment issues**
+```cmd
+REM Create virtual environment
+python -m venv venv
+
+REM Activate on Windows
+venv\Scripts\activate.bat
+
+REM Activate on PowerShell
+venv\Scripts\Activate.ps1
+```
+
+### Camera Issues (Raspberry Pi)
 ```bash
 # Test camera
 libcamera-still -o test.jpg
@@ -305,15 +371,15 @@ sudo raspi-config
 # Interface Options -> Camera -> Enable
 ```
 
-### GPIO Permissions
+### GPIO Permissions (Raspberry Pi)
 ```bash
 sudo usermod -a -G gpio $USER
 sudo reboot
 ```
 
 ### DynamoDB Connection Issues
-- Verify AWS credentials
-- Check IAM permissions
+- Verify AWS credentials in `.env` file
+- Check IAM permissions (need DynamoDB access)
 - Ensure correct region
 - Test with AWS CLI: `aws dynamodb list-tables`
 

@@ -103,8 +103,15 @@ You have two options: **Automatic** (recommended) or **Manual**.
 The application will create the table automatically when you first run it.
 
 Just configure your `.env` file (see step 5) and run the backend:
+
+**Linux/Mac:**
 ```bash
 python backend/app.py
+```
+
+**Windows:**
+```cmd
+python backend\app.py
 ```
 
 The table will be created automatically on first startup.
@@ -138,20 +145,22 @@ If you prefer to create the table manually:
 
 #### Via AWS CLI:
 
-```bash
-# Install AWS CLI first (if not installed)
-# For Mac: brew install awscli
-# For Ubuntu: sudo apt install awscli
-# For Windows: Download from https://aws.amazon.com/cli/
+**Install AWS CLI first:**
+- **Mac:** `brew install awscli`
+- **Ubuntu/Linux:** `sudo apt install awscli`
+- **Windows:** Download installer from https://aws.amazon.com/cli/
 
-# Configure AWS CLI
+**Configure AWS CLI (same for all platforms):**
+```bash
 aws configure
 # Enter your Access Key ID
 # Enter your Secret Access Key
 # Default region: us-east-1
 # Default output format: json
+```
 
-# Create table
+**Create table - Linux/Mac:**
+```bash
 aws dynamodb create-table \
     --table-name VehiclePassRegistrations \
     --attribute-definitions AttributeName=plate_number,AttributeType=S \
@@ -163,12 +172,21 @@ aws dynamodb create-table \
 aws dynamodb list-tables --region us-east-1
 ```
 
+**Create table - Windows:**
+```cmd
+aws dynamodb create-table --table-name VehiclePassRegistrations --attribute-definitions AttributeName=plate_number,AttributeType=S --key-schema AttributeName=plate_number,KeyType=HASH --billing-mode PAY_PER_REQUEST --region us-east-1
+
+REM Verify table was created
+aws dynamodb list-tables --region us-east-1
+```
+
 ---
 
 ## 5. Configure Application
 
 ### Step 1: Create `.env` file
 
+**Linux/Mac:**
 ```bash
 cd /home/user/IOT-PROJECT-v2
 
@@ -177,6 +195,17 @@ cp .env.example .env
 
 # Edit the file
 nano .env  # or use your favorite editor
+```
+
+**Windows:**
+```cmd
+cd E:\IOT-PROJECT-v2
+
+REM Copy example file
+copy .env.example .env
+
+REM Edit the file
+notepad .env
 ```
 
 ### Step 2: Fill in your AWS credentials
@@ -205,12 +234,23 @@ CORS_ORIGINS=*
 
 ### Step 3: Generate a secret key
 
+**Linux/Mac:**
 ```bash
 # Generate a random secret key
 python3 -c "import secrets; print(secrets.token_hex(32))"
 
 # Copy the output and paste it as SECRET_KEY in .env
 ```
+
+**Windows (PowerShell):**
+```powershell
+# Generate a random secret key
+python -c "import secrets; print(secrets.token_hex(32))"
+
+# Copy the output and paste it as SECRET_KEY in .env
+```
+
+**Or use online generator:** https://randomkeygen.com/
 
 ### Important Notes:
 - Replace `AKIAIOSFODNN7EXAMPLE` with your actual Access Key ID
